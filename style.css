@@ -1,25 +1,174 @@
-body { margin: 0; background: #E0E0E0; font-family: 'Segoe UI', Arial, sans-serif; }
-.classic-header { background: #FFFFFF; border-bottom: 2px solid #D4AF37; }
-
-.purchase-top-bar { background: #111; color: #fff; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; }
-.pay-btn { background: #222; border: 1px solid #D4AF37; color: #D4AF37; padding: 6px 12px; cursor: pointer; border-radius: 4px; }
-.highlight-buy-btn { background: #CC0000; color: #fff; text-decoration: none; padding: 10px 20px; font-weight: bold; border-radius: 4px; }
-
-.logo-row { max-width: 1100px; margin: 30px auto; text-align: center; }
-.site-name { font-size: 38px; color: #D4AF37; font-family: 'Times New Roman', serif; margin: 0; letter-spacing: 2px; }
-.stats-area { margin-top: 10px; font-weight: bold; color: #555; }
-
-.classic-nav { background: #FFCC00; border-top: 1px solid #000; padding: 10px; text-align: center; }
-.nav-links a { text-decoration: none; color: #000; font-weight: bold; margin: 0 15px; }
-
-.content-frame { max-width: 1100px; margin: 20px auto; background: #fff; border: 1px solid #999; position: relative; padding: 5px; }
-#pixel-viewport { width: 100%; height: 600px; position: relative; overflow: hidden; background: #fff; }
-
-/* সোল্ড আউট ওভারলে */
-#sold-out-overlay {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-10deg);
-    background: rgba(204, 0, 0, 0.95); color: white; font-size: 90px; font-weight: bold;
-    padding: 20px 60px; border: 8px double white; z-index: 1000; display: none; pointer-events: none;
+/* ১. জেনারেল রিসেট ও বডি স্টাইল */
+body { 
+    margin: 0; 
+    background: #E0E0E0; 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    overflow-x: hidden;
 }
 
-.classic-footer { text-align: center; padding: 50px; font-size: 13px; color: #444; font-weight: bold; }
+/* ২. ক্লাসিক হেডার ও টপ বার */
+.classic-header { 
+    background: #FFFFFF; 
+    border-bottom: 2px solid #D4AF37; 
+}
+
+.purchase-top-bar { 
+    background: #111; 
+    color: #fff; 
+    padding: 12px 20px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.pay-label { 
+    color: #FFCC00; 
+    font-weight: bold; 
+    font-size: 13px; 
+}
+
+.pay-btn { 
+    background: #222; 
+    border: 1px solid #D4AF37; 
+    color: #D4AF37; 
+    padding: 6px 12px; 
+    font-size: 11px; 
+    cursor: pointer; 
+    margin-right: 10px; 
+    border-radius: 4px; 
+    transition: 0.3s;
+}
+
+.pay-btn:hover { 
+    background: #D4AF37; 
+    color: #000; 
+}
+
+.highlight-buy-btn { 
+    background: #CC0000; 
+    color: #fff; 
+    text-decoration: none; 
+    padding: 10px 20px; 
+    font-weight: bold; 
+    border-radius: 4px; 
+    font-size: 13px;
+    border: 1px solid white;
+}
+
+/* ৩. সাইট নেম ও সোশ্যাল ট্রে (লোগো ছাড়া) */
+.logo-row { 
+    max-width: 1100px; 
+    margin: 25px auto; 
+    text-align: center; 
+}
+
+.site-name { 
+    font-size: 40px; 
+    color: #D4AF37; 
+    font-family: 'Times New Roman', serif; 
+    margin: 0; 
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+.social-tray-header {
+    margin: 15px 0;
+}
+
+.social-tray-header img {
+    width: 26px;
+    height: 26px;
+    margin: 0 10px;
+    vertical-align: middle;
+    transition: transform 0.2s ease-in-out;
+}
+
+.social-tray-header img:hover {
+    transform: scale(1.3);
+}
+
+.stats-area { 
+    margin-top: 10px; 
+    font-weight: bold; 
+    color: #555; 
+    font-size: 14px;
+}
+
+/* ৪. নেভিগেশন বার */
+.classic-nav { 
+    background: #FFCC00; 
+    border-top: 1px solid #000; 
+    border-bottom: 1px solid #000; 
+    padding: 10px; 
+    text-align: center; 
+    max-width: 1100px; 
+    margin: auto;
+}
+
+.nav-links a { 
+    text-decoration: none; 
+    color: #000; 
+    font-weight: bold; 
+    margin: 0 15px; 
+    font-size: 15px;
+}
+
+/* ৫. পিক্সেল ম্যাপ ও জুম সেটআপ */
+.content-frame { 
+    max-width: 1100px; 
+    margin: 20px auto; 
+    background: #fff; 
+    border: 1px solid #999; 
+    position: relative; 
+    padding: 5px; 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+#pixel-viewport { 
+    width: 100%; 
+    height: 600px; 
+    position: relative; 
+    overflow: hidden; 
+    background: #fff; 
+    cursor: grab;
+}
+
+#pixel-viewport:active {
+    cursor: grabbing;
+}
+
+#canvas-mover { 
+    transform-origin: 0 0; 
+    position: absolute; 
+    will-change: transform;
+}
+
+/* ৬. অটো সোল্ড আউট ওভারলে (লাল রঙে) */
+#sold-out-overlay {
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: rgba(204, 0, 0, 0.95); 
+    color: white; 
+    font-size: 100px; 
+    font-weight: bold;
+    padding: 30px 70px; 
+    border: 10px double white; 
+    z-index: 9999; 
+    display: none; /* JS থেকে সোল্ড আউট হলে এটি ব্লক হবে */
+    pointer-events: none;
+    box-shadow: 0 0 50px rgba(0,0,0,0.5);
+    text-shadow: 3px 3px 5px rgba(0,0,0,0.3);
+}
+
+/* ৭. ফুটার */
+.classic-footer { 
+    text-align: center; 
+    padding: 60px 20px; 
+    font-size: 13px; 
+    color: #444; 
+    font-weight: bold;
+    border-top: 1px solid #ccc;
+    background: #f9f9f9;
+}
